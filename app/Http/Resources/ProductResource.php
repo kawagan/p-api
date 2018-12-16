@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Symfony\Component\Routing\Route;
 
 class ProductResource extends Resource
 {
@@ -20,7 +21,11 @@ class ProductResource extends Resource
             "descriptions"=>$this->deatil,
             "price"=>$this->price,
             "stock"=>$this->stock,
-            "discoint"=>$this->discount,
+            "rating"=>round($this->reviews->sum('star') / $this->reviews->count()),
+            "discount"=>$this->discount,
+            "links"=>[
+                "reviews"=>\route('reviews.index',$this->id)
+            ]
 
         ];
     }
